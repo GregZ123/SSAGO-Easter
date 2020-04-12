@@ -18,6 +18,11 @@
 
 package me.gregz.ssago.easter;
 
+import me.gregz.ssago.easter.command.SSAGOEasterAdminCommand;
+import me.gregz.ssago.easter.command.SSAGOEasterCommand;
+import me.gregz.ssago.easter.egg.EggManager;
+import me.gregz.ssago.easter.http.HTTPManager;
+import me.gregz.ssago.easter.listener.EggListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -26,10 +31,13 @@ import org.bukkit.plugin.java.JavaPlugin;
  * the plugin.
  *
  * @author GregZ_
- * @version 1
+ * @version 2
  * @since 1.0
  */
 public class SSAGOEaster extends JavaPlugin {
+
+    private EggManager eggManager;
+    private HTTPManager httpManager;
 
     /**
      * Called when the plugin is enabled by the server, instantiate and store
@@ -37,6 +45,11 @@ public class SSAGOEaster extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-        //TODO
+        this.eggManager = new EggManager(this);
+        this.httpManager = new HTTPManager(this, eggManager);
+        getServer().getPluginManager().registerEvents(new EggListener(eggManager, httpManager), this);
+
+        getCommand("SSAGOEaster").setExecutor(new SSAGOEasterCommand(eggManager, httpManager));
+        getCommand("SSAGOEasterAdmin").setExecutor(new SSAGOEasterAdminCommand(eggManager));
     }
 }
