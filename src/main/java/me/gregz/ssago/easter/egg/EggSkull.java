@@ -42,8 +42,9 @@ class EggSkull {
 
         PlayerProfile playerProfile = Bukkit.createProfile(skullID);
 
-        if (texture != null && texture.trim().isEmpty()) {
-            playerProfile.getProperties().add(new ProfileProperty("textures", texture));
+        if (texture != null && !texture.trim().isEmpty()) {
+            System.out.println("DID THE THING");
+            playerProfile.setProperty(new ProfileProperty("textures", texture));
         }
 
         this.playerProfile = playerProfile;
@@ -61,7 +62,10 @@ class EggSkull {
         }
 
         b.setType(Material.PLAYER_HEAD);
-        ((Skull) b.getState()).setPlayerProfile(playerProfile);
+
+        Skull skull = ((Skull) b.getState());
+        skull.setPlayerProfile(playerProfile);
+        skull.update();
 
         return true;
     }
