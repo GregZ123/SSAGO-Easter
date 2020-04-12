@@ -49,7 +49,11 @@ public class PlaceArgument implements SubCommand {
 
         if (!eggManager.placeAllEggs(args.length - argsStart > 0 && args[argsStart].toLowerCase().equals("force"))) {
             sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + " Unable to place eggs, some locations are unsafe.");
+            return true;
         }
+
+        sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + " Successfully placed all eggs.");
+
 
         return true;
     }
