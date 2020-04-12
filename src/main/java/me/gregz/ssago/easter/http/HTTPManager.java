@@ -39,13 +39,19 @@ import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
 
 public class HTTPManager {
 
+    private static final long COOLDOWN = 5000;
+
     private final SSAGOEaster plugin;
     private final EggManager eggManager;
+
+    private final HashMap<UUID, Long> lastClaimTime = new HashMap<>();
+    private final HashMap<UUID, Long> lastAnswerTime = new HashMap<>();
 
     private String urlBase;
     private String key;
@@ -92,7 +98,20 @@ public class HTTPManager {
         return errorFound;
     }
 
+    public void handleQuit(UUID playerUUID) {
+        lastClaimTime.remove(playerUUID);
+        lastAnswerTime.remove(playerUUID);
+    }
+
     public void claimEgg(Player p, EasterEgg egg) {
+        if (lastClaimTime.containsKey(p.getUniqueId()) && System.currentTimeMillis() - lastClaimTime.get(p.getUniqueId()) < COOLDOWN) {
+            p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "You have been rate limited, please do not spam claim treasure!");
+            return;
+        }
+
+        lastClaimTime.put(p.getUniqueId(), System.currentTimeMillis());
+
         Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             final UUID playerUUID = p.getUniqueId();
             final String playerName = p.getName();
@@ -120,9 +139,25 @@ public class HTTPManager {
                     if (conn.getResponseCode() != 200) {
                         if (conn.getResponseCode() == 403) {
                             plugin.getLogger().log(Level.SEVERE, "Server responded with 403, api key is incorrect,  url: " + sb.toString());
+                            Bukkit.getScheduler().runTask(plugin, () -> {
+                                Player p = Bukkit.getPlayer(playerUUID);
+                                if (p == null) {
+                                    return;
+                                }
+                                p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                                p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (key), if this continues please contact an Admin.");
+                            });
                             return;
                         }
                         plugin.getLogger().log(Level.SEVERE, "Server responded with non 200 code, code: " + conn.getResponseCode() + " url: " + sb.toString());
+                        Bukkit.getScheduler().runTask(plugin, () -> {
+                            Player p = Bukkit.getPlayer(playerUUID);
+                            if (p == null) {
+                                return;
+                            }
+                            p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                            p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (response code), if this continues please contact an Admin.");
+                        });
                     }
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -136,7 +171,7 @@ public class HTTPManager {
 
                     conn.disconnect();
 
-                    plugin.getLogger().log(Level.INFO, "Successfully registered player egg collection, player: " + playerName + " egg: " + easterEgg);
+                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure collection, player: " + playerName + " egg: " + easterEgg);
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
@@ -144,7 +179,8 @@ public class HTTPManager {
                         }
                         eggManager.setLastClickedEgg(playerUUID, easterEgg);
                         p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-                        p.sendMessage(ChatColor.GREEN + "Your egg collection has been registered with the server, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GREEN + " for a bonus point, if you log out you will have to click this egg again or use the web system to provide an answer.");
+                        //TODO add some kind of cool effect to the treasure here
+                        p.sendMessage(ChatColor.GREEN + "Your treasure collection has been registered with the server, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GREEN + " for a bonus point, if you log out you will have to click this treasure again or use the web system to provide an answer.");
                         p.sendMessage(ChatColor.LIGHT_PURPLE + easterEgg.getQuestion());
                     });
                 } catch (UnsupportedEncodingException e) {
@@ -154,16 +190,18 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (unsupported encoding), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (unsupported encoding), if this continues please contact an Admin.");
                     });
                 } catch (MalformedURLException e) {
-                    plugin.getLogger().log(Level.SEVERE, "Error when forming claim egg url.", e);
+                    plugin.getLogger().log(Level.SEVERE, "Error when forming claim treasure url.", e);
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (malformed url), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (malformed url), if this continues please contact an Admin.");
                     });
                 } catch (SocketTimeoutException e) {
                     plugin.getLogger().log(Level.SEVERE, "Connection to endpoint timed out.", e);
@@ -172,7 +210,8 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (timeout), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (timeout), if this continues please contact an Admin.");
                     });
                 } catch (ProtocolException e) {
                     plugin.getLogger().log(Level.SEVERE, "Protocol error, set with GET.", e);
@@ -181,7 +220,8 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (protocol error), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (protocol error), if this continues please contact an Admin.");
                     });
                 } catch (JsonParseException e) {
                     plugin.getLogger().log(Level.SEVERE, "Json response was not.", e);
@@ -190,16 +230,18 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (invalid JSON), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (invalid JSON), if this continues please contact an Admin.");
                     });
                 } catch (IOException e) {
-                    plugin.getLogger().log(Level.SEVERE, "IO exception occurred when communicating player egg gain to the server.", e);
+                    plugin.getLogger().log(Level.SEVERE, "IO exception occurred when communicating player treasure gain to the server.", e);
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (IO), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (IO), if this continues please contact an Admin.");
                     });
                 }
             }
@@ -207,6 +249,13 @@ public class HTTPManager {
     }
 
     public void answerQuestion(Player p, EasterEgg egg, String answer) {
+        if (lastAnswerTime.containsKey(p.getUniqueId()) && System.currentTimeMillis() - lastAnswerTime.get(p.getUniqueId()) < COOLDOWN) {
+            p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "You have been rate limited, please do not spam answers!");
+            return;
+        }
+
+        lastAnswerTime.put(p.getUniqueId(), System.currentTimeMillis());
         Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             final UUID playerUUID = p.getUniqueId();
             final String playerName = p.getName();
@@ -235,9 +284,25 @@ public class HTTPManager {
                     if (conn.getResponseCode() != 200) {
                         if (conn.getResponseCode() == 403) {
                             plugin.getLogger().log(Level.SEVERE, "Server responded with 403, api key is incorrect,  url: " + sb.toString());
+                            Bukkit.getScheduler().runTask(plugin, () -> {
+                                Player p = Bukkit.getPlayer(playerUUID);
+                                if (p == null) {
+                                    return;
+                                }
+                                p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                                p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (key), if this continues please contact an Admin.");
+                            });
                             return;
                         }
                         plugin.getLogger().log(Level.SEVERE, "Server responded with non 200 code, code: " + conn.getResponseCode() + " url: " + sb.toString());
+                        Bukkit.getScheduler().runTask(plugin, () -> {
+                            Player p = Bukkit.getPlayer(playerUUID);
+                            if (p == null) {
+                                return;
+                            }
+                            p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                            p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (response code), if this continues please contact an Admin.");
+                        });
                     }
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -251,7 +316,7 @@ public class HTTPManager {
 
                     conn.disconnect();
 
-                    plugin.getLogger().log(Level.INFO, "Successfully registered player egg question answer, player: " + playerName + " egg: " + easterEgg + " answer: " + answer);
+                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure question answer, player: " + playerName + " egg: " + easterEgg + " answer: " + answer);
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
@@ -268,16 +333,18 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (unsupported encoding), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (unsupported encoding), if this continues please contact an Admin.");
                     });
                 } catch (MalformedURLException e) {
-                    plugin.getLogger().log(Level.SEVERE, "Error when forming claim egg url.", e);
+                    plugin.getLogger().log(Level.SEVERE, "Error when forming claim treasure url.", e);
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (malformed url), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (malformed url), if this continues please contact an Admin.");
                     });
                 } catch (SocketTimeoutException e) {
                     plugin.getLogger().log(Level.SEVERE, "Connection to endpoint timed out.", e);
@@ -286,7 +353,8 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (timeout), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (timeout), if this continues please contact an Admin.");
                     });
                 } catch (ProtocolException e) {
                     plugin.getLogger().log(Level.SEVERE, "Protocol error, set with GET.", e);
@@ -295,7 +363,8 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (protocol error), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (protocol error), if this continues please contact an Admin.");
                     });
                 } catch (JsonParseException e) {
                     plugin.getLogger().log(Level.SEVERE, "Json response was not.", e);
@@ -304,16 +373,18 @@ public class HTTPManager {
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (invalid JSON), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (invalid JSON), if this continues please contact an Admin.");
                     });
                 } catch (IOException e) {
-                    plugin.getLogger().log(Level.SEVERE, "IO exception occurred when communicating player egg gain to the server.", e);
+                    plugin.getLogger().log(Level.SEVERE, "IO exception occurred when communicating player treasure gain to the server.", e);
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
                             return;
                         }
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest egg find (IO), if this continues please contact an Admin.");
+                        p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (IO), if this continues please contact an Admin.");
                     });
                 }
             }

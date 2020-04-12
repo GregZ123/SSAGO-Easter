@@ -30,6 +30,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class EggListener implements Listener {
 
@@ -41,9 +42,15 @@ public class EggListener implements Listener {
         this.httpManager = httpManager;
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void playerLogout(PlayerQuitEvent event) {
+        eggManager.removeLastClickedEgg(event.getPlayer().getUniqueId());
+        httpManager.handleQuit(event.getPlayer().getUniqueId());
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEggInteract(PlayerInteractEvent event) {
-        if (!eggManager.areEggsPlaced()) {
+        if (event.getClickedBlock() == null || !eggManager.areEggsPlaced()) {
             return;
         }
 
