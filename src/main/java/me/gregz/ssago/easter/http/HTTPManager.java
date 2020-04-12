@@ -154,6 +154,7 @@ public class HTTPManager {
                             p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
                             p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (response code), if this continues please contact an Admin.");
                         });
+                        return;
                     }
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -299,6 +300,7 @@ public class HTTPManager {
                             p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
                             p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (response code), if this continues please contact an Admin.");
                         });
+                        return;
                     }
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -320,7 +322,6 @@ public class HTTPManager {
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                         p.sendMessage(ChatColor.GREEN + "Your answer to the question \"" + ChatColor.LIGHT_PURPLE + easterEgg.getQuestion() + "\"" + ChatColor.GREEN + " has been submitted to the SSAGO answer server, you may view / edit your answers online.");
-                        p.sendMessage(ChatColor.LIGHT_PURPLE + easterEgg.getQuestion());
                     });
                 } catch (UnsupportedEncodingException e) {
                     plugin.getLogger().log(Level.SEVERE, "UTF-8 encoding not supported, THIS SHOULD NEVER HAPPEN.", e);

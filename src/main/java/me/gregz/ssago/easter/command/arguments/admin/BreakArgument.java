@@ -45,6 +45,7 @@ public class BreakArgument implements SubCommand {
 
         if (!eggManager.areEggsPlaced()) {
             sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + " No eggs are currently placed.");
+            return true;
         }
 
         List<Location> invalidHeads = eggManager.breakAllEggs();

@@ -44,6 +44,7 @@ public class PlaceArgument implements SubCommand {
 
         if (eggManager.areEggsPlaced()) {
             sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + " Eggs are already placed.");
+            return true;
         }
 
         if (!eggManager.placeAllEggs(args.length - argsStart > 0 && args[argsStart].toLowerCase().equals("force"))) {

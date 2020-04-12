@@ -32,7 +32,6 @@ import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.MainHand;
 
 public class EggListener implements Listener {
 

@@ -24,7 +24,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -76,47 +75,47 @@ public class EggManager {
         // header manually added.
         eggsConfig.options().header(
             "The Spigot plugin for the SSAGO(https://ssago.org) Easter event within Minecraft.\n" +
-            "Copyright (C) 2020  Gregory HS (GregZ_)\n" +
-            "\n" +
-            "This program is free software: you can redistribute it and/or modify\n" +
-            "it under the terms of the GNU Affero General Public License as published\n" +
-            "by the Free Software Foundation, either version 3 of the License, or\n" +
-            "(at your option) any later version.\n" +
-            "\n" +
-            "This program is distributed in the hope that it will be useful,\n" +
-            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
-            "GNU Affero General Public License for more details.\n" +
-            "\n" +
-            "You should have received a copy of the GNU Affero General Public License\n" +
-            "along with this program.  If not, see <https://www.gnu.org/licenses/>.\n" +
-            "\n" +
-            "##############################################################################\n" +
-            "##        This is the eggs storage file for the SSAGO Easter plugin         ##\n" +
-            "##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##\n" +
-            "##       This file contains all of the egs intended for use in the          ##\n" +
-            "##       easter egg hunt allong with their requested textures.              ##\n" +
-            "##############################################################################\n" +
-            "\n" +
-            "##############################################################################\n" +
-            "##                                 WARNING                                  ##\n" +
-            "##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##\n" +
-            "##       THIS FILE IS NEEDED FOR IN GAME LOGIC. IT IS NOT INTENDED TO       ##\n" +
-            "##       BE MANUALLY EDITED, ONLY DO SO IF YOU ARE SURE YOU KNOW WHAT       ##\n" +
-            "##       YOU ARE DOING.                                                     ##\n" +
-            "##############################################################################\n" +
-            "\n" +
-            "Format:\n" +
-            "  EGG_ID_STRING:      ~ The id of the egg, this will be submitted to SSAGO\n" +
-            "    Location:\n" +
-            "      World:          ~ The world location to place the skull at.\n" +
-            "      X:              ~ The integer X location to place the skull at.\n" +
-            "      Y:              ~ The integer Y location to place the skull at.\n" +
-            "      Z:              ~ The integer Z location to place the skull at.\n" +
-            "    Texture:\n" +
-            "      UUID:           ~ The skull UUID to use for texture identification.\n" +
-            "      Base64:         ~ The base 64 encoded skull texture.\n" +
-            "    Question:         ~ The question to ask the player");
+                "Copyright (C) 2020  Gregory HS (GregZ_)\n" +
+                "\n" +
+                "This program is free software: you can redistribute it and/or modify\n" +
+                "it under the terms of the GNU Affero General Public License as published\n" +
+                "by the Free Software Foundation, either version 3 of the License, or\n" +
+                "(at your option) any later version.\n" +
+                "\n" +
+                "This program is distributed in the hope that it will be useful,\n" +
+                "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+                "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
+                "GNU Affero General Public License for more details.\n" +
+                "\n" +
+                "You should have received a copy of the GNU Affero General Public License\n" +
+                "along with this program.  If not, see <https://www.gnu.org/licenses/>.\n" +
+                "\n" +
+                "##############################################################################\n" +
+                "##        This is the eggs storage file for the SSAGO Easter plugin         ##\n" +
+                "##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##\n" +
+                "##       This file contains all of the egs intended for use in the          ##\n" +
+                "##       easter egg hunt allong with their requested textures.              ##\n" +
+                "##############################################################################\n" +
+                "\n" +
+                "##############################################################################\n" +
+                "##                                 WARNING                                  ##\n" +
+                "##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##\n" +
+                "##       THIS FILE IS NEEDED FOR IN GAME LOGIC. IT IS NOT INTENDED TO       ##\n" +
+                "##       BE MANUALLY EDITED, ONLY DO SO IF YOU ARE SURE YOU KNOW WHAT       ##\n" +
+                "##       YOU ARE DOING.                                                     ##\n" +
+                "##############################################################################\n" +
+                "\n" +
+                "Format:\n" +
+                "  EGG_ID_STRING:      ~ The id of the egg, this will be submitted to SSAGO\n" +
+                "    Location:\n" +
+                "      World:          ~ The world location to place the skull at.\n" +
+                "      X:              ~ The integer X location to place the skull at.\n" +
+                "      Y:              ~ The integer Y location to place the skull at.\n" +
+                "      Z:              ~ The integer Z location to place the skull at.\n" +
+                "    Texture:\n" +
+                "      UUID:           ~ The skull UUID to use for texture identification.\n" +
+                "      Base64:         ~ The base 64 encoded skull texture.\n" +
+                "    Question:         ~ The question to ask the player");
 
         if (!eggsConfig.contains("Placed")) {
             plugin.getLogger().log(Level.SEVERE, "The eggs config is missing the key Placed, defaulting to false.");
@@ -285,6 +284,9 @@ public class EggManager {
         }
 
         placed = false;
+        eggsConfig.set("Placed", false);
+        saveConfig();
+
         return nonEggLocations;
     }
 
