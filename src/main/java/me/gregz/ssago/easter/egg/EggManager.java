@@ -24,6 +24,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -71,6 +72,52 @@ public class EggManager {
         }
         this.eggsConfig = YamlConfiguration.loadConfiguration(eggsConfigFile);
 
+        // Spigot is a pain with comments in YAML files so sod it here is the
+        // header manually added.
+        eggsConfig.options().header(
+            "The Spigot plugin for the SSAGO(https://ssago.org) Easter event within Minecraft.\n" +
+            "Copyright (C) 2020  Gregory HS (GregZ_)\n" +
+            "\n" +
+            "This program is free software: you can redistribute it and/or modify\n" +
+            "it under the terms of the GNU Affero General Public License as published\n" +
+            "by the Free Software Foundation, either version 3 of the License, or\n" +
+            "(at your option) any later version.\n" +
+            "\n" +
+            "This program is distributed in the hope that it will be useful,\n" +
+            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
+            "GNU Affero General Public License for more details.\n" +
+            "\n" +
+            "You should have received a copy of the GNU Affero General Public License\n" +
+            "along with this program.  If not, see <https://www.gnu.org/licenses/>.\n" +
+            "\n" +
+            "##############################################################################\n" +
+            "##        This is the eggs storage file for the SSAGO Easter plugin         ##\n" +
+            "##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##\n" +
+            "##       This file contains all of the egs intended for use in the          ##\n" +
+            "##       easter egg hunt allong with their requested textures.              ##\n" +
+            "##############################################################################\n" +
+            "\n" +
+            "##############################################################################\n" +
+            "##                                 WARNING                                  ##\n" +
+            "##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##\n" +
+            "##       THIS FILE IS NEEDED FOR IN GAME LOGIC. IT IS NOT INTENDED TO       ##\n" +
+            "##       BE MANUALLY EDITED, ONLY DO SO IF YOU ARE SURE YOU KNOW WHAT       ##\n" +
+            "##       YOU ARE DOING.                                                     ##\n" +
+            "##############################################################################\n" +
+            "\n" +
+            "Format:\n" +
+            "  EGG_ID_STRING:      ~ The id of the egg, this will be submitted to SSAGO\n" +
+            "    Location:\n" +
+            "      World:          ~ The world location to place the skull at.\n" +
+            "      X:              ~ The integer X location to place the skull at.\n" +
+            "      Y:              ~ The integer Y location to place the skull at.\n" +
+            "      Z:              ~ The integer Z location to place the skull at.\n" +
+            "    Texture:\n" +
+            "      UUID:           ~ The skull UUID to use for texture identification.\n" +
+            "      Base64:         ~ The base 64 encoded skull texture.\n" +
+            "    Question:         ~ The question to ask the player");
+
         if (!eggsConfig.contains("Placed")) {
             plugin.getLogger().log(Level.SEVERE, "The eggs config is missing the key Placed, defaulting to false.");
             eggsConfig.set("Placed", false);
@@ -107,11 +154,6 @@ public class EggManager {
                     errorFound = true;
                     continue;
                 }
-                if (eggsConfig.isString(workingPath)) {
-                    plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the World Location of the egg with id " + eggID + " is not a string.");
-                    errorFound = true;
-                    continue;
-                }
                 workingWorld = Bukkit.getWorld(eggsConfig.getString(workingPath));
                 if (workingWorld == null) {
                     plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the World Location of the egg with id " + eggID + " could not be identified as a valid world.");
@@ -125,11 +167,6 @@ public class EggManager {
                     errorFound = true;
                     continue;
                 }
-                if (eggsConfig.isInt(workingPath)) {
-                    plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the X Location of the egg with id " + eggID + " is not an integer.");
-                    errorFound = true;
-                    continue;
-                }
                 workingX = eggsConfig.getInt(workingPath);
 
                 workingPath = "Eggs." + eggID + "." + "Location.Y";
@@ -138,21 +175,11 @@ public class EggManager {
                     errorFound = true;
                     continue;
                 }
-                if (eggsConfig.isInt(workingPath)) {
-                    plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the Y Location of the egg with id " + eggID + " is not an integer.");
-                    errorFound = true;
-                    continue;
-                }
                 workingY = eggsConfig.getInt(workingPath);
 
                 workingPath = "Eggs." + eggID + "." + "Location.Z";
                 if (!eggsConfig.contains(workingPath)) {
                     plugin.getLogger().log(Level.SEVERE, "The Eggs config file does not contain a Z Location key for the egg with id " + eggID + ".");
-                    errorFound = true;
-                    continue;
-                }
-                if (eggsConfig.isInt(workingPath)) {
-                    plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the Z Location of the egg with id " + eggID + " is not an integer.");
                     errorFound = true;
                     continue;
                 }
@@ -179,11 +206,6 @@ public class EggManager {
                     errorFound = true;
                     continue;
                 }
-                if (eggsConfig.isString(workingPath)) {
-                    plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the Texture UUID of the egg with id " + eggID + " is not a string.");
-                    errorFound = true;
-                    continue;
-                }
                 try {
                     workingUUID = UUID.fromString(eggsConfig.getString(workingPath));
                 } catch (IllegalArgumentException e) {
@@ -194,10 +216,6 @@ public class EggManager {
                 workingPath = "Eggs." + eggID + "." + "Texture.Base64";
                 if (!eggsConfig.contains(workingPath)) {
                     plugin.getLogger().log(Level.INFO, "The Eggs config file does not contain a Texture Base64 key for the egg with id " + eggID + ", assuming uuid only texture.");
-                } else if (eggsConfig.isString(workingPath)) {
-                    plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the Texture Base64 of the egg with id " + eggID + " is not a string.");
-                    errorFound = true;
-                    continue;
                 }
 
                 workingSkull = new EggSkull(workingUUID, eggsConfig.getString(workingPath));
@@ -208,13 +226,9 @@ public class EggManager {
                     errorFound = true;
                     continue;
                 }
-                if (eggsConfig.isString(workingPath)) {
-                    plugin.getLogger().log(Level.SEVERE, "The Eggs config file value for the Question of the egg with id " + eggID + " is not a string.");
-                    errorFound = true;
-                    continue;
-                }
 
                 eggs.put(workingLocation, new EasterEgg(eggID, workingSkull, eggsConfig.getString(workingPath)));
+                System.out.println("Init egg \n\t" + workingLocation + "\n\t" + eggs.get(workingLocation));
             }
         }
 
@@ -233,6 +247,10 @@ public class EggManager {
         eggs.forEach((location, easterEgg) -> {
             easterEgg.placeAt(location, replace);
         });
+
+        placed = true;
+        eggsConfig.set("Placed", true);
+        saveConfig();
 
         return true;
     }

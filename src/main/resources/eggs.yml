@@ -13,22 +13,22 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-################################################################################
-###        This is the eggs storage file for the SSAGO Easter plugin         ###
-###    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ###
-###       This file contains all of the egs intended for use in the          ###
-###       easter egg hunt allong with their requested textures.              ###
-################################################################################
-
-################################################################################
-###                                 WARNING                                  ###
-###    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ###
-###       THIS FILE IS NEEDED FOR IN GAME LOGIC. IT IS NOT INTENDED TO       ###
-###       BE MANUALLY EDITED, ONLY DO SO IF YOU ARE SURE YOU KNOW WHAT       ###
-###       YOU ARE DOING.                                                     ###
-################################################################################
-
+#
+# ##############################################################################
+# ##        This is the eggs storage file for the SSAGO Easter plugin         ##
+# ##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##
+# ##       This file contains all of the egs intended for use in the          ##
+# ##       easter egg hunt allong with their requested textures.              ##
+# ##############################################################################
+#
+# ##############################################################################
+# ##                                 WARNING                                  ##
+# ##    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   ##
+# ##       THIS FILE IS NEEDED FOR IN GAME LOGIC. IT IS NOT INTENDED TO       ##
+# ##       BE MANUALLY EDITED, ONLY DO SO IF YOU ARE SURE YOU KNOW WHAT       ##
+# ##       YOU ARE DOING.                                                     ##
+# ##############################################################################
+#
 # Format:
 #   EGG_ID_STRING:      ~ The id of the egg, this will be submitted to SSAGO
 #     Location:
@@ -40,4 +40,4 @@
 #       Base64:         ~ The base 64 encoded skull texture.
 #     Question:         ~ The question to ask the player
 Placed: false
-Eggs:
+Eggs: {}

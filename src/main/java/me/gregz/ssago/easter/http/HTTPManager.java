@@ -69,12 +69,10 @@ public class HTTPManager {
 
         if (!plugin.getConfig().contains("Key")) {
             plugin.getLogger().log(Level.SEVERE, "The plugin config is missing the api key, defaulting to UNKNOWN");
-            plugin.getConfig().set("Key", "UNKNOWN");
             this.key = "UNKNOWN";
             errorFound = true;
         } else if (!plugin.getConfig().isString("Key")) {
             plugin.getLogger().log(Level.SEVERE, "The plugin config api key key does not contain a string value, defaulting to UNKNOWN");
-            plugin.getConfig().set("Key", "UNKNOWN");
             this.key = "UNKNOWN";
             errorFound = true;
         } else {
@@ -82,14 +80,12 @@ public class HTTPManager {
         }
 
         if (!plugin.getConfig().contains("UrlBase")) {
-            plugin.getLogger().log(Level.SEVERE, "The plugin config is missing the key UrlBase, defaulting to https://virtual.ssago.or/api?");
-            plugin.getConfig().set("UrlBase", "https://virtual.ssago.or/api?");
-            this.urlBase = "https://virtual.ssago.or/api?";
+            plugin.getLogger().log(Level.SEVERE, "The plugin config is missing the key UrlBase, defaulting to https://virtual.ssago.org/api?");
+            this.urlBase = "https://virtual.ssago.org/api?";
             errorFound = true;
         } else if (!plugin.getConfig().isString("UrlBase")) {
             plugin.getLogger().log(Level.SEVERE, "The Eggs config file Placed key does not contain a boolean value, defaulting to false.");
-            plugin.getConfig().set("UrlBase", "https://virtual.ssago.or/api?");
-            this.urlBase = "https://virtual.ssago.or/api?";
+            this.urlBase = "https://virtual.ssago.org/api?";
             errorFound = true;
         } else {
             this.urlBase = plugin.getConfig().getString("UrlBase");
@@ -124,9 +120,9 @@ public class HTTPManager {
                     URL url;
                     HttpsURLConnection conn;
 
-                    sb.append("?key=").append(URLEncoder.encode(key, "UTF-8")).append('&')
-                        .append("?egg=").append(URLEncoder.encode(easterEgg.getId(), "UTF-8")).append('&')
-                        .append("?who=").append(URLEncoder.encode(playerName, "UTF-8"));
+                    sb.append("key=").append(URLEncoder.encode(key, "UTF-8")).append('&')
+                        .append("egg=").append(URLEncoder.encode(easterEgg.getId(), "UTF-8")).append('&')
+                        .append("who=").append(URLEncoder.encode(playerName, "UTF-8"));
 
                     url = new URL(sb.toString());
 
@@ -268,10 +264,10 @@ public class HTTPManager {
                     URL url;
                     HttpsURLConnection conn;
 
-                    sb.append("?key=").append(URLEncoder.encode(key, "UTF-8")).append('&')
-                        .append("?egg=").append(URLEncoder.encode(easterEgg.getId(), "UTF-8")).append('&')
-                        .append("?who=").append(URLEncoder.encode(playerName, "UTF-8")).append('&')
-                        .append("?answer=").append(URLEncoder.encode(answer, "UTF-8"));
+                    sb.append("key=").append(URLEncoder.encode(key, "UTF-8")).append('&')
+                        .append("egg=").append(URLEncoder.encode(easterEgg.getId(), "UTF-8")).append('&')
+                        .append("who=").append(URLEncoder.encode(playerName, "UTF-8")).append('&')
+                        .append("answer=").append(URLEncoder.encode(answer, "UTF-8"));
 
                     url = new URL(sb.toString());
 

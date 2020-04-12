@@ -31,6 +31,8 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.MainHand;
 
 public class EggListener implements Listener {
 
@@ -61,7 +63,10 @@ public class EggListener implements Listener {
         }
 
         event.setCancelled(true);
-        httpManager.claimEgg(event.getPlayer(), eggManager.getEggAt(loc));
+
+        if (event.getHand() != EquipmentSlot.HAND) {
+            httpManager.claimEgg(event.getPlayer(), eggManager.getEggAt(loc));
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

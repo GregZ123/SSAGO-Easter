@@ -42,7 +42,7 @@ public class StatusArgument implements SubCommand {
             return true;
         }
 
-        sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + ChatColor.UNDERLINE + " Treasure status\n" + ChatColor.RESET +
+        sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.BLUE + ChatColor.UNDERLINE + "Treasure status\n" + ChatColor.RESET +
             ChatColor.DARK_GRAY + "    Loaded: " + ChatColor.GRAY + eggManager.getEggCount() + "\n" +
             ChatColor.DARK_GRAY + "    Placed: " + ChatColor.GRAY + eggManager.areEggsPlaced() + "\n" +
             ChatColor.DARK_GRAY + "    Unsafe: " + ChatColor.GRAY + eggManager.getUnsafeEggLocations().size());
