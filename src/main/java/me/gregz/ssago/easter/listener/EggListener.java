@@ -29,6 +29,12 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockFormEvent;
+import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -100,6 +106,42 @@ public class EggListener implements Listener {
     public void onEggExplode(BlockExplodeEvent event) {
         if (eggManager.areEggsPlaced()) {
             event.blockList().removeIf(b -> eggManager.isEgg(b.getLocation()));
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEggFromTo(BlockFromToEvent event) {
+        if (eggManager.areEggsPlaced() && eggManager.isEgg(event.getToBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEggIgnite(BlockIgniteEvent event) {
+        if (eggManager.areEggsPlaced() && eggManager.isEgg(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEggForm(BlockFormEvent event) {
+        if (eggManager.areEggsPlaced() && eggManager.isEgg(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEggOverride(BlockPlaceEvent event) {
+        if (eggManager.areEggsPlaced() && eggManager.isEgg(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEggEmptyBucketOn(PlayerBucketEmptyEvent event) {
+        if (eggManager.areEggsPlaced() && eggManager.isEgg(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+            event.getBlock().getState().update();
         }
     }
 }
