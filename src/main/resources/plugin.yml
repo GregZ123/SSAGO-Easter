@@ -26,26 +26,26 @@ commands:
   SSAGOEaster:
     description: The command node to answer bonus questions and view your currently active bonus question.
     usage: |
-      /&lt;command&gt; [answer|question]
-      Example: /&lt;command&gt; - See basic hunt status.
-      Example: /&lt;command&gt; question - See your currently active question, if any.
-      Example: /&lt;command&gt; answer ANSWER GIVEN HERE - Submit an answer to your active given bonus question.
+      /<command> [answer|question]
+      Example: /<command> - See basic hunt status.
+      Example: /<command> question - See your currently active question, if any.
+      Example: /<command> answer ANSWER GIVEN HERE - Submit an answer to your active given bonus question.
   SSAGOEasterAdmin:
     description: The admin command node used to add, remove and place eggs.
     usage: |
-      /&lt;command&gt; [status|view|add|remove|check|place|break]
-      Example: /&lt;command&gt; - View command usage.
-      Example: /&lt;command&gt; status - See the current state of easter egg placement.
-      Example: /&lt;command&gt; view - View all active easter eggs as an inventory menu.
-      Example: /&lt;command&gt; add <EGG_ID> <WORLD> <X> <Y> <Z> <QUESTION> <TEXTURE_UUID> [TEXTURE_BASE64] - Create a new easter egg and add it to the eggs config file, eggs must not currently be placed.
-      Example: /&lt;command&gt; remove EGG_ID - Remove the easter egg with the given id should one exist.
-      Example: /&lt;command&gt; check - Check that the placement of all easter eggs is safe and report if not.
-      Example: /&lt;command&gt; place [force] - Place all loaded easter eggs into the world, if force is used they will replace existing non air blocks.
-      Example: /&lt;command&gt; break - Break all easter eggs currently placed in the world.
+      /<command> [status|view|add|remove|check|place|break]
+      Example: /<command> - View command usage.
+      Example: /<command> status - See the current state of easter egg placement.
+      Example: /<command> view - View all active easter eggs as an inventory menu.
+      Example: /<command> add <EGG_ID> <WORLD> <X> <Y> <Z> <QUESTION> <TEXTURE_UUID> [TEXTURE_BASE64] - Create a new easter egg and add it to the eggs config file, eggs must not currently be placed.
+      Example: /<command> remove <EGG_ID> - Remove the easter egg with the given id should one exist.
+      Example: /<command> check - Check that the placement of all easter eggs is safe and report if not.
+      Example: /<command> place [force] - Place all loaded easter eggs into the world, if force is used they will replace existing non air blocks.
+      Example: /<command> break - Break all easter eggs currently placed in the world.
 permissions:
   ssago.easter.admin.*:
     description: Allow access to all SSAGO Easter admin commands
-    default: false
+    default: op
     children:
       ssago.easter.admin.status: true
       ssago.easter.admin.view: true

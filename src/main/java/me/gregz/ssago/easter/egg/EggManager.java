@@ -66,7 +66,9 @@ public class EggManager {
         UUID workingUUID;
         EggSkull workingSkull;
 
-        plugin.saveResource("eggs.yml", false);
+        if (!eggsConfigFile.exists()) {
+            plugin.saveResource("eggs.yml", false);
+        }
         this.eggsConfig = YamlConfiguration.loadConfiguration(eggsConfigFile);
 
         if (!eggsConfig.contains("Placed")) {
@@ -224,7 +226,7 @@ public class EggManager {
     }
 
     public boolean placeAllEggs(boolean replace) {
-        if (!replace && !getUnsafeEggs().isEmpty()) {
+        if (!replace && !getUnsafeEggLocations().isEmpty()) {
             return false;
         }
 
@@ -235,7 +237,7 @@ public class EggManager {
         return true;
     }
 
-    public List<Location> getUnsafeEggs() {
+    public List<Location> getUnsafeEggLocations() {
         List<Location> unsafeLocations = new ArrayList<>();
 
         for (Location loc : eggs.keySet()) {
@@ -247,7 +249,7 @@ public class EggManager {
         return unsafeLocations;
     }
 
-    public List<Location> removeAllEggs() {
+    public List<Location> breakAllEggs() {
         if (!placed) {
             return Collections.emptyList();
         }
@@ -288,6 +290,10 @@ public class EggManager {
 
     public EasterEgg getEggAt(Location loc) {
         return eggs.get(loc);
+    }
+
+    public int getEggCount() {
+        return eggs.size();
     }
 
     public void setLastClickedEgg(UUID uuid, EasterEgg easterEgg) throws IllegalArgumentException {
