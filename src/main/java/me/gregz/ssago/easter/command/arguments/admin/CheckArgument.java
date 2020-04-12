@@ -52,7 +52,7 @@ public class CheckArgument implements SubCommand {
             sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + (eggCount == 1 ? "Currently there is one loaded egg, it is in a safe location" : "Currently there are " + eggCount + " loaded eggs, they are all in safe locations."));
         } else {
             sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + (eggCount == 1 ? "Currently there is one loaded egg, it is in an unsafe location." : "Currently there are " + eggCount + " loaded eggs, " + ChatColor.RED + (unsafeEggLocations.size() == 1 ? "1" + ChatColor.GRAY + " of them is in an unsafe location." : unsafeEggLocations.size() + ChatColor.GRAY.toString() + " of them is in an unsafe location.")));
-            unsafeEggLocations.forEach(location -> sender.sendMessage(ChatColor.DARK_GRAY + "  - " + ChatColor.GRAY + location.getWorld() + " " + location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ() + " " + location.getBlock().getType()));
+            unsafeEggLocations.forEach(location -> sender.sendMessage(ChatColor.DARK_GRAY + "  - " + ChatColor.GRAY + eggManager.getEggAt(location).getId() + " " + location.getWorld().getName() + " " + location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ() + " " + location.getBlock().getType()));
         }
 
         return true;
