@@ -53,7 +53,7 @@ public class BreakArgument implements SubCommand {
         if (invalidHeads.isEmpty()) {
             sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + " Successful broke all placed eggs.");
         } else {
-            sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + " Some eggs had the incorrect type, unable to break.");
+            sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + " Some eggs had the incorrect type, unable to break " + invalidHeads.size() + " of " + eggManager.getEggCount() + " eggs.");
             invalidHeads.forEach(location -> sender.sendMessage(ChatColor.DARK_GRAY + "  - " + ChatColor.GRAY + location.getWorld() + " " + location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ() + " " + location.getBlock().getType()));
         }
 
