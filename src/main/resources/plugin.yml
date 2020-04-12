@@ -21,3 +21,61 @@ version: ${project.version}
 api-version: 1.15
 author: GregZ_
 database: false
+load: POSTWORLD
+commands:
+  SSAGOEaster:
+    description: The command node to answer bonus questions and view your currently active bonus question.
+    usage: |
+      /&lt;command&gt; [answer|question]
+      Example: /&lt;command&gt; - See basic hunt status.
+      Example: /&lt;command&gt; question - See your currently active question, if any.
+      Example: /&lt;command&gt; answer ANSWER GIVEN HERE - Submit an answer to your active given bonus question.
+  SSAGOEasterAdmin:
+    description: The admin command node used to add, remove and place eggs.
+    usage: |
+      /&lt;command&gt; [status|view|add|remove|check|place|break]
+      Example: /&lt;command&gt; - View command usage.
+      Example: /&lt;command&gt; status - See the current state of easter egg placement.
+      Example: /&lt;command&gt; view - View all active easter eggs as an inventory menu.
+      Example: /&lt;command&gt; add <EGG_ID> <WORLD> <X> <Y> <Z> <QUESTION> <TEXTURE_UUID> [TEXTURE_BASE64] - Create a new easter egg and add it to the eggs config file, eggs must not currently be placed.
+      Example: /&lt;command&gt; remove EGG_ID - Remove the easter egg with the given id should one exist.
+      Example: /&lt;command&gt; check - Check that the placement of all easter eggs is safe and report if not.
+      Example: /&lt;command&gt; place [force] - Place all loaded easter eggs into the world, if force is used they will replace existing non air blocks.
+      Example: /&lt;command&gt; break - Break all easter eggs currently placed in the world.
+permissions:
+  ssago.easter.admin.*:
+    description: Allow access to all SSAGO Easter admin commands
+    default: false
+    children:
+      ssago.easter.admin.status: true
+      ssago.easter.admin.view: true
+      ssago.easter.admin.add: true
+      ssago.easter.admin.remove: true
+      ssago.easter.admin.check: true
+      ssago.easter.admin.place: true
+      ssago.easter.admin.place.force: true
+      ssago.easter.admin.break: true
+  ssago.easter.admin.status:
+    description: Allow viewing of the current status of easter egg placement and egg count.
+    default: false
+  ssago.easter.admin.view:
+    description: Allow viewing of all loaded easter eggs as an inventory menu.
+    default: false
+  ssago.easter.admin.add:
+    description: Allow adding of of easter eggs ingame.
+    default: false
+  ssago.easter.admin.remove:
+    description: Allow removal of of easter eggs ingame.
+    default: false
+  ssago.easter.admin.check:
+    description: Allow easter egg place location safety checking.
+    default: false
+  ssago.easter.admin.place:
+    description: Allow placing of all loaded easter eggs in air blocks.
+    default: false
+  ssago.easter.admin.place.force:
+    description: Allow placing of all loaded easter eggs, overiding any already placed blocks.
+    default: false
+  ssago.easter.admin.break:
+    description: Allow breaking of all loaded easter eggs.
+    default: false
