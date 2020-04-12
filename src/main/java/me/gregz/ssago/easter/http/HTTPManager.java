@@ -141,7 +141,7 @@ public class HTTPManager {
                                     return;
                                 }
                                 p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                                p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (key), if this continues please contact an Admin.");
+                                p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (key), if this continues please contact an Admin.");
                             });
                             return;
                         }
@@ -152,7 +152,7 @@ public class HTTPManager {
                                 return;
                             }
                             p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                            p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (response code), if this continues please contact an Admin.");
+                            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (response code), if this continues please contact an Admin.");
                         });
                         return;
                     }
@@ -177,8 +177,8 @@ public class HTTPManager {
                         eggManager.setLastClickedEgg(playerUUID, easterEgg);
                         p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                         //TODO add some kind of cool effect to the treasure here
-                        p.sendMessage(ChatColor.GREEN + "Your treasure collection has been registered with the server, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GREEN + " for a bonus point, if you log out you will have to click this treasure again or use the web system to provide an answer.");
-                        p.sendMessage(ChatColor.LIGHT_PURPLE + easterEgg.getQuestion());
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Your treasure collection has been registered with the server you may view all your found eggs at https://virtual.ssago.org/hunt, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GREEN + " for a bonus point.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.LIGHT_PURPLE + easterEgg.getQuestion());
                     });
                 } catch (UnsupportedEncodingException e) {
                     plugin.getLogger().log(Level.SEVERE, "UTF-8 encoding not supported, THIS SHOULD NEVER HAPPEN.", e);
@@ -188,7 +188,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (unsupported encoding), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (unsupported encoding), if this continues please contact an Admin.");
                     });
                 } catch (MalformedURLException e) {
                     plugin.getLogger().log(Level.SEVERE, "Error when forming claim treasure url.", e);
@@ -198,7 +198,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (malformed url), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (malformed url), if this continues please contact an Admin.");
                     });
                 } catch (SocketTimeoutException e) {
                     plugin.getLogger().log(Level.SEVERE, "Connection to endpoint timed out.", e);
@@ -208,7 +208,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (timeout), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (timeout), if this continues please contact an Admin.");
                     });
                 } catch (ProtocolException e) {
                     plugin.getLogger().log(Level.SEVERE, "Protocol error, set with GET.", e);
@@ -218,7 +218,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (protocol error), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (protocol error), if this continues please contact an Admin.");
                     });
                 } catch (JsonParseException e) {
                     plugin.getLogger().log(Level.SEVERE, "Json response was not.", e);
@@ -228,7 +228,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (invalid JSON), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (invalid JSON), if this continues please contact an Admin.");
                     });
                 } catch (IOException e) {
                     plugin.getLogger().log(Level.SEVERE, "IO exception occurred when communicating player treasure gain to the server.", e);
@@ -238,7 +238,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (IO), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (IO), if this continues please contact an Admin.");
                     });
                 }
             }
@@ -287,7 +287,7 @@ public class HTTPManager {
                                     return;
                                 }
                                 p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                                p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (key), if this continues please contact an Admin.");
+                                p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure answer (key), if this continues please contact an Admin.");
                             });
                             return;
                         }
@@ -298,7 +298,7 @@ public class HTTPManager {
                                 return;
                             }
                             p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                            p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (response code), if this continues please contact an Admin.");
+                            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure answer (response code), if this continues please contact an Admin.");
                         });
                         return;
                     }
@@ -321,7 +321,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-                        p.sendMessage(ChatColor.GREEN + "Your answer to the question \"" + ChatColor.LIGHT_PURPLE + easterEgg.getQuestion() + "\"" + ChatColor.GREEN + " has been submitted to the SSAGO answer server, you may view / edit your answers online.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Your answer to the question \"" + ChatColor.LIGHT_PURPLE + easterEgg.getQuestion() + "\"" + ChatColor.GREEN + " has been submitted to the SSAGO answer server, you may view your found eggs and edit your bonus question answers at https://virtual.ssago.org/hunt.");
                     });
                 } catch (UnsupportedEncodingException e) {
                     plugin.getLogger().log(Level.SEVERE, "UTF-8 encoding not supported, THIS SHOULD NEVER HAPPEN.", e);
@@ -331,7 +331,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (unsupported encoding), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (unsupported encoding), if this continues please contact an Admin.");
                     });
                 } catch (MalformedURLException e) {
                     plugin.getLogger().log(Level.SEVERE, "Error when forming claim treasure url.", e);
@@ -341,7 +341,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (malformed url), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (malformed url), if this continues please contact an Admin.");
                     });
                 } catch (SocketTimeoutException e) {
                     plugin.getLogger().log(Level.SEVERE, "Connection to endpoint timed out.", e);
@@ -351,7 +351,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (timeout), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (timeout), if this continues please contact an Admin.");
                     });
                 } catch (ProtocolException e) {
                     plugin.getLogger().log(Level.SEVERE, "Protocol error, set with GET.", e);
@@ -361,7 +361,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (protocol error), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (protocol error), if this continues please contact an Admin.");
                     });
                 } catch (JsonParseException e) {
                     plugin.getLogger().log(Level.SEVERE, "Json response was not.", e);
@@ -371,7 +371,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (invalid JSON), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (invalid JSON), if this continues please contact an Admin.");
                     });
                 } catch (IOException e) {
                     plugin.getLogger().log(Level.SEVERE, "IO exception occurred when communicating player treasure gain to the server.", e);
@@ -381,7 +381,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
-                        p.sendMessage(ChatColor.RED + "An error occurred when registering your latest treasure find (IO), if this continues please contact an Admin.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "An error occurred when registering your latest treasure find (IO), if this continues please contact an Admin.");
                     });
                 }
             }
