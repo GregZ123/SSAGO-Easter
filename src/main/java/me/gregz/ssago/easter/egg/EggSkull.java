@@ -57,7 +57,7 @@ class EggSkull {
 
         Block b = loc.getBlock();
 
-        if (b.getType() != Material.AIR && !replace) {
+        if (b.getType() != Material.AIR && loc.getBlock().getType() != Material.CAVE_AIR && loc.getBlock().getType() != Material.WATER && !replace) {
             return false;
         }
 

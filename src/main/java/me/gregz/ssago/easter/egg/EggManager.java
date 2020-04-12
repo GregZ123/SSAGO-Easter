@@ -258,7 +258,7 @@ public class EggManager {
         List<Location> unsafeLocations = new ArrayList<>();
 
         for (Location loc : eggs.keySet()) {
-            if (loc.getBlock().getType() != Material.AIR && loc.getBlock().getType() != Material.CAVE_AIR) {
+            if (loc.getBlock().getType() != Material.AIR && loc.getBlock().getType() != Material.CAVE_AIR && loc.getBlock().getType() != Material.WATER) {
                 unsafeLocations.add(loc);
             }
         }
