@@ -94,7 +94,15 @@
                 <filtering>true</filtering>
             </resource>
             <resource>
-                <directory>${project.basedir}</directory>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>config.yml</include>
+                    <include>eggs.yml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>.</directory>
                 <includes>
                     <include>LICENCE</include>
                 </includes>
@@ -114,12 +122,6 @@
         <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
