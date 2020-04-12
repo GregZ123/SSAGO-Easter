@@ -301,12 +301,12 @@ public class EggManager {
         lastClickedEgg.put(uuid, easterEgg);
     }
 
-    public void getLastClickedEgg(UUID uuid) throws IllegalArgumentException {
+    public EasterEgg getLastClickedEgg(UUID uuid) throws IllegalArgumentException {
         if (uuid == null) {
             throw new IllegalArgumentException("The given player UUID must not be null.");
         }
 
-        lastClickedEgg.get(uuid);
+        return lastClickedEgg.get(uuid);
     }
 
     public void removeLastClickedEgg(UUID uuid) throws IllegalArgumentException {
