@@ -164,11 +164,11 @@ public class HTTPManager {
                     in.close();
 
                     JsonParser jsonParser = new JsonParser();
-                    JsonObject jsonResponse = (JsonObject) jsonParser.parse(response.toString());
+                    final JsonObject jsonResponse = (JsonObject) jsonParser.parse(response.toString());
 
                     conn.disconnect();
 
-                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure collection, player: " + playerName + " egg: " + easterEgg);
+                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure collection, player: " + playerName + " egg: " + easterEgg + " responce: " + jsonResponse.toString());
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
@@ -176,9 +176,16 @@ public class HTTPManager {
                         }
                         eggManager.setLastClickedEgg(playerUUID, easterEgg);
                         p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-                        //TODO add some kind of cool effect to the treasure here
-                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Your treasure collection has been registered with the server you may view all your found eggs at https://virtual.ssago.org/hunt, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GREEN + " for a bonus point.");
-                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.LIGHT_PURPLE + easterEgg.getQuestion());
+                        //TODO add some kind of cool effect to the treasure
+                        if (jsonResponse.get("status").getAsString().equals("new")) {
+                            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Your treasure collection has been registered with the server you may view all your found eggs at https://virtual.ssago.org/hunt, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GRAY + " for a bonus point.");
+                        } else if (jsonResponse.get("status").getAsString().equals("updated")) {
+                            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Your selected treasure has been updated, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GRAY + " for a bonus point.");
+                        } else {
+                            p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Your treasure collection has been registered with the server you may view all your found eggs at https://virtual.ssago.org/hunt, correctly answer the following question with " + ChatColor.GOLD + "/ssagoeaster answer" + ChatColor.GRAY + " for a bonus point.");
+                            plugin.getLogger().log(Level.WARNING, "Received unknown status response on treasure claim, assuming new: " + playerName + " egg: " + easterEgg + " responce: " + jsonResponse.toString());
+                        }
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.DARK_AQUA + easterEgg.getQuestion());
                     });
                 } catch (UnsupportedEncodingException e) {
                     plugin.getLogger().log(Level.SEVERE, "UTF-8 encoding not supported, THIS SHOULD NEVER HAPPEN.", e);
@@ -321,7 +328,7 @@ public class HTTPManager {
                             return;
                         }
                         p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Your answer to the question \"" + ChatColor.LIGHT_PURPLE + easterEgg.getQuestion() + "\"" + ChatColor.GREEN + " has been submitted to the SSAGO answer server, you may view your found eggs and edit your bonus question answers at https://virtual.ssago.org/hunt.");
+                        p.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Your answer to the question \"" + ChatColor.DARK_AQUA + easterEgg.getQuestion() + "\"" + ChatColor.GRAY + " has been submitted to the SSAGO answer server, you may view your found eggs and edit your bonus question answers at https://virtual.ssago.org/hunt.");
                     });
                 } catch (UnsupportedEncodingException e) {
                     plugin.getLogger().log(Level.SEVERE, "UTF-8 encoding not supported, THIS SHOULD NEVER HAPPEN.", e);

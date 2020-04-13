@@ -47,7 +47,7 @@ public class QuestionArgument implements SubCommand {
             return true;
         }
 
-        sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.LIGHT_PURPLE + egg.getQuestion());
+        sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.DARK_AQUA + egg.getQuestion());
 
         return true;
     }
