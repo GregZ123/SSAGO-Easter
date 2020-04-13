@@ -49,6 +49,7 @@ public class BreakArgument implements SubCommand {
         }
 
         List<Location> invalidHeads = eggManager.breakAllEggs();
+        eggManager.cleatLastClickedEgg();
 
         if (invalidHeads.isEmpty()) {
             sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "Treasure Hunt" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Successful broke all placed eggs.");

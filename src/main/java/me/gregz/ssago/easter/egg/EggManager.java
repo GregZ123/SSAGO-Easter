@@ -342,4 +342,8 @@ public class EggManager {
 
         lastClickedEgg.remove(uuid);
     }
+
+    public void cleatLastClickedEgg() {
+        lastClickedEgg.clear();
+    }
 }
