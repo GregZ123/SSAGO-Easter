@@ -168,7 +168,7 @@ public class HTTPManager {
 
                     conn.disconnect();
 
-                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure collection, player: " + playerName + " egg: " + easterEgg + " responce: " + jsonResponse.toString());
+                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure collection, player: " + playerName + " egg: " + easterEgg + " response: " + jsonResponse.toString());
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
@@ -321,7 +321,7 @@ public class HTTPManager {
 
                     conn.disconnect();
 
-                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure question answer, player: " + playerName + " egg: " + easterEgg + " answer: " + answer);
+                    plugin.getLogger().log(Level.INFO, "Successfully registered player treasure question answer, player: " + playerName + " egg: " + easterEgg + " answer: " + answer + " response: " + jsonResponse.toString());
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         Player p = Bukkit.getPlayer(playerUUID);
                         if (p == null) {
