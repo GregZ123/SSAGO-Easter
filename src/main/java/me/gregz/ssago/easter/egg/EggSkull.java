@@ -43,7 +43,6 @@ class EggSkull {
         PlayerProfile playerProfile = Bukkit.createProfile(skullID);
 
         if (texture != null && !texture.trim().isEmpty()) {
-            System.out.println("DID THE THING");
             playerProfile.setProperty(new ProfileProperty("textures", texture));
         }
 

@@ -227,7 +227,6 @@ public class EggManager {
                 }
 
                 eggs.put(workingLocation, new EasterEgg(eggID, workingSkull, eggsConfig.getString(workingPath)));
-                System.out.println("Init egg \n\t" + workingLocation + "\n\t" + eggs.get(workingLocation));
             }
         }
 
