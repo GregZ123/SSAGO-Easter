@@ -31,13 +31,10 @@ import org.bukkit.plugin.java.JavaPlugin;
  * the plugin.
  *
  * @author GregZ_
- * @version 2
+ * @version 3
  * @since 1.0
  */
 public class SSAGOEaster extends JavaPlugin {
-
-    private EggManager eggManager;
-    private HTTPManager httpManager;
 
     /**
      * Called when the plugin is enabled by the server, instantiate and store
@@ -45,8 +42,9 @@ public class SSAGOEaster extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-        this.eggManager = new EggManager(this);
-        this.httpManager = new HTTPManager(this, eggManager);
+        EggManager eggManager = new EggManager(this);
+        HTTPManager httpManager = new HTTPManager(this, eggManager);
+
         getServer().getPluginManager().registerEvents(new EggListener(eggManager, httpManager), this);
 
         getCommand("SSAGOEaster").setExecutor(new SSAGOEasterCommand(eggManager, httpManager));
