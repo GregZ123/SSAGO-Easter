@@ -29,13 +29,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
 public class EggManager {
+
+    private static final HashSet<Material> SAFE_TO_REPLACE_MATERIALS = (HashSet<Material>) Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Material.AIR, Material.CAVE_AIR, Material.WATER)));
 
     private final HashMap<Location, EasterEgg> eggs = new HashMap<>();
     private final HashMap<UUID, EasterEgg> lastClickedEgg = new HashMap<>();
@@ -257,12 +261,16 @@ public class EggManager {
         List<Location> unsafeLocations = new ArrayList<>();
 
         for (Location loc : eggs.keySet()) {
-            if (loc.getBlock().getType() != Material.AIR && loc.getBlock().getType() != Material.CAVE_AIR && loc.getBlock().getType() != Material.WATER) {
+            if (!isSafeLocation(loc)) {
                 unsafeLocations.add(loc);
             }
         }
 
         return unsafeLocations;
+    }
+
+    public boolean isSafeLocation(Location loc) {
+        return SAFE_TO_REPLACE_MATERIALS.contains(loc.getBlock().getType());
     }
 
     public List<Location> breakAllEggs() {
